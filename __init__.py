@@ -22,6 +22,7 @@ class Button:
         self._state = self._button.value()
         self._debounce_ms = 50
         self._double_click_ms = 350
+        self._sync = True
         self._on_down = Event()
         asyncio.create_task(self._event_down())
         self._on_hold = Event()
@@ -51,6 +52,14 @@ class Button:
     @double_click_ms.setter
     def double_click_ms(self, value):
         self.double_click_ms = value
+
+    @property
+    def sync(self):
+        return self._sync
+
+    @sync.setter
+    def sync(self, value):
+        self._sync = value
 
     ################################################################################
     # Events
@@ -123,27 +132,27 @@ class Button:
             except asyncio.TimeoutError:
                 pass
 
-    async def down(self, cyberware='', sync=True):
+    async def down(self, cyberware=''):
         while True:
             await self._on_down.wait()
-            await cyberos.event.send('on_down', cyberware=cyberware, sync=sync)
+            await cyberos.event.send('on_down', cyberware=cyberware, sync=self._sync)
 
-    async def hold(self, cyberware='', sync=True):
+    async def hold(self, cyberware=''):
         while True:
             await self._on_hold.wait()
-            await cyberos.event.send('on_hold', cyberware=cyberware, sync=sync)
+            await cyberos.event.send('on_hold', cyberware=cyberware, sync=self._sync)
 
-    async def up(self, cyberware='', sync=True):
+    async def up(self, cyberware=''):
         while True:
             await self._on_up.wait()
-            await cyberos.event.send('on_up', cyberware=cyberware, sync=sync)
+            await cyberos.event.send('on_up', cyberware=cyberware, sync=self._sync)
 
-    async def click(self, cyberware='', sync=True):
+    async def click(self, cyberware=''):
         while True:
             await self._on_click.wait()
-            await cyberos.event.send('on_click', cyberware=cyberware, sync=sync)
+            await cyberos.event.send('on_click', cyberware=cyberware, sync=self._sync)
 
-    async def double_click(self, cyberware='', sync=True):
+    async def double_click(self, cyberware=''):
         while True:
             await self._on_double_click.wait()
-            await cyberos.event.send('on_double_click', cyberware=cyberware, sync=sync)
+            await cyberos.event.send('on_double_click', cyberware=cyberware, sync=self._sync)
