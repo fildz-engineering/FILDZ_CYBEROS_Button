@@ -8,7 +8,7 @@
 #
 # Features:
 # - Completely asynchronous.
-# - Supports down, hold, up, click and double click events.
+# - Supports down, hold, up, click and, double-click events.
 # - Adjustable debounce and double click ms.
 # - Supports user-defined coroutines.
 
