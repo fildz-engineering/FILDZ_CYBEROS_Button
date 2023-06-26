@@ -10,6 +10,7 @@
 # - Completely asynchronous.
 # - Supports down, hold, up, click and double click events.
 # - Adjustable debounce and double click ms.
+# - Supports user-defined coroutines.
 
 import fildz_cyberos as cyberos
 import uasyncio as asyncio
@@ -24,14 +25,19 @@ class Button:
         self._double_click_ms = 350
         self._sync = True
         self._on_down = Event()
+        self._down = None
         asyncio.create_task(self._event_down())
         self._on_hold = Event()
+        self._hold = None
         asyncio.create_task(self._event_hold())
         self._on_up = Event()
+        self._up = None
         asyncio.create_task(self._event_up())
         self._on_click = Event()
+        self._click = None
         asyncio.create_task(self._event_click())
         self._on_double_click = Event()
+        self._double_click = None
         asyncio.create_task(self._event_double_click())
 
     ################################################################################
@@ -68,21 +74,46 @@ class Button:
     def on_down(self):
         return self._on_down
 
+    @on_down.setter
+    def on_down(self, value):
+        self._down = value
+        asyncio.create_task(self.down())
+
     @property
     def on_hold(self):
         return self._on_hold
+
+    @on_hold.setter
+    def on_hold(self, value):
+        self._hold = value
+        asyncio.create_task(self.hold())
 
     @property
     def on_up(self):
         return self._on_up
 
+    @on_up.setter
+    def on_up(self, value):
+        self._up = value
+        asyncio.create_task(self.up())
+
     @property
     def on_click(self):
         return self._on_click
 
+    @on_click.setter
+    def on_click(self, value):
+        self._click = value
+        asyncio.create_task(self.click())
+
     @property
     def on_double_click(self):
         return self._on_double_click
+
+    @on_double_click.setter
+    def on_double_click(self, value):
+        self._double_click = value
+        asyncio.create_task(self.double_click())
 
     ################################################################################
     # Tasks
@@ -135,24 +166,39 @@ class Button:
     async def down(self, cyberware=''):
         while True:
             await self._on_down.wait()
-            await cyberos.event.send('on_down', cyberware=cyberware, sync=self._sync)
+            if self._down is None:
+                await cyberos.event.send('on_down', cyberware=cyberware, sync=self._sync)
+            else:
+                await self._down()
 
     async def hold(self, cyberware=''):
         while True:
             await self._on_hold.wait()
-            await cyberos.event.send('on_hold', cyberware=cyberware, sync=self._sync)
+            if self._hold is None:
+                await cyberos.event.send('on_hold', cyberware=cyberware, sync=self._sync)
+            else:
+                await self._hold()
 
     async def up(self, cyberware=''):
         while True:
             await self._on_up.wait()
-            await cyberos.event.send('on_up', cyberware=cyberware, sync=self._sync)
+            if self._up is None:
+                await cyberos.event.send('on_up', cyberware=cyberware, sync=self._sync)
+            else:
+                await self._up()
 
     async def click(self, cyberware=''):
         while True:
             await self._on_click.wait()
-            await cyberos.event.send('on_click', cyberware=cyberware, sync=self._sync)
+            if self._click is None:
+                await cyberos.event.send('on_click', cyberware=cyberware, sync=self._sync)
+            else:
+                await self._click()
 
     async def double_click(self, cyberware=''):
         while True:
             await self._on_double_click.wait()
-            await cyberos.event.send('on_double_click', cyberware=cyberware, sync=self._sync)
+            if self._double_click is None:
+                await cyberos.event.send('on_double_click', cyberware=cyberware, sync=self._sync)
+            else:
+                await self._double_click()
