@@ -28,7 +28,7 @@ from fildz_button import Button
 
 async def main():
     await cyberos.init()
-    btn = Button(Pin(13, Pin.OUTPUT))
+    btn = Button(Pin(13, Pin.OUT))
     asyncio.create_task(btn.click())  # Send clicks to all paired cyberwares.
     # asyncio.create_task(btn.click(cyberware='DISPLAY-0F889A-ABW'))  # Send clicks to specific cyberware.
     await cyberos.run_forever()
@@ -44,7 +44,7 @@ async def btn_clicked():
 
 async def main():
     await cyberos.init()
-    btn = Button(Pin(13, Pin.OUTPUT))
+    btn = Button(Pin(13, Pin.OUT))
     btn.on_click = btn_clicked
     await cyberos.run_forever()
     
@@ -54,7 +54,7 @@ asyncio.run(main())
 ### User Defined Coroutine + Task + Event:
 
 ```Python
-btn = Button(Pin(13, Pin.OUTPUT))
+btn = Button(Pin(13, Pin.OUT))
 
 async def btn_clicked():
     while True:
