@@ -72,12 +72,11 @@ asyncio.run(main())
 
 ## Documentation
 
-TODO.
+The documentation for the FILDZ CYBEROS Button Library is currently a work in progress. It will be available soon to provide detailed explanations of the library's API, usage examples, and best practices.
 
 ## Contributing
 
-FILDZ CYBEROS is an open-source project and welcomes contributions. Note that the project is licensed under the MIT license, and all contributions
-should follow this license.
+FILDZ CYBEROS is an open-source project that thrives on community contributions. We welcome developers to contribute to the project by following the MIT license guidelines. Feel free to submit pull requests, report issues, or suggest enhancements to help us improve the project further.
 
 ## Acknowledgment 
 
