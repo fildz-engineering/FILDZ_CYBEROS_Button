@@ -36,7 +36,7 @@ async def main():
 asyncio.run(main())
 ```
 
-### User Defined Coroutine + Property:
+### Coroutine + Property:
 
 ```Python
 async def btn_clicked():
@@ -51,19 +51,18 @@ async def main():
 asyncio.run(main())
 ```
 
-### User Defined Coroutine + Task + Event:
+### Coroutine + Task + Event:
 
 ```Python
-btn = Button(Pin(13, Pin.OUT))
-
-async def btn_clicked():
+async def btn_clicked(btn):
     while True:
         await btn.on_click.wait()
         print('Button clicked')
 
 async def main():
     await cyberos.init()
-    asyncio.create_task(btn_clicked())
+    btn = Button(Pin(13, Pin.OUT))
+    asyncio.create_task(btn_clicked(btn))
     asyncio.create_task(btn.click())  # Send clicks to all paired cyberwares.
     await cyberos.run_forever()
 
