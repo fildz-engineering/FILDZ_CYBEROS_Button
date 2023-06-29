@@ -17,7 +17,7 @@ Fully asynchronous button library for CYBEROS.
 
 ## Usage
 
-### Default:
+### Task:
 
 ```Python
 from machine import Pin
